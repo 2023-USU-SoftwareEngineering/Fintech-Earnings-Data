@@ -1,2 +1,3 @@
 # Fintech Earnings Data
-Yo. This is a placeholder readme. Tom's django stuff is in [fintech_django](fintech_django).
+Yo. This is a placeholder readme. Tom's django stuff is in [fintech_django](fintech_django).\
+The database info is in sqlite
