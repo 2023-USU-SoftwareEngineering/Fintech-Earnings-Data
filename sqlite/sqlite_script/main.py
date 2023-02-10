@@ -1,19 +1,23 @@
 import sqlite3
 from sqlite3 import Error
 import sys
+import os
 
 
 def main():
-
     if len(sys.argv) == 0:
         return
+    elif sys.argv[0] == "-h" or sys.argv[0] == "-help":
+        print("-a: create table if not exists")
+        print("-d: drop table if exists")
+        print("-s: select all from")
     connection = None
     try:
-        connection = sqlite3.connect(r"~/Fintech-Earnings-Data/sqlite/db/Fintech.db")
+        connection = sqlite3.connect(os.getcwd()[:-13] + "db/Fintech.db")
     except Error as e:
         print(e)
     match sys.argv[0]:
-        case "-a":
+        case "-c":
             if connection:
                 c = connection.cursor()
                 for arg in sys.argv[1:]:
