@@ -22,7 +22,7 @@ def main():
         if sys.argv[1] == "-c":
             for arg in sys.argv[2:]:
                 c.execute(
-                    "CREATE TABLE IF NOT EXISTS " + arg + " ([date] TEXT PRIMARY KEY, [price] INTEGER, [input] TEXT)"
+                    "CREATE TABLE IF NOT EXISTS " + arg + " ([date] INTEGER PRIMARY KEY, [price] INTEGER, [input] TEXT)"
                 )
                 connection.commit()
             connection.close()
