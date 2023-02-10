@@ -29,7 +29,7 @@ def main():
         elif sys.argv[1] == "-d":
             for arg in sys.argv[2:]:
                 c.execute(
-                    "DROP TABLE IF EXISTS" + arg
+                    "DROP TABLE IF EXISTS " + arg
                 )
                 connection.commit()
             connection.close()
