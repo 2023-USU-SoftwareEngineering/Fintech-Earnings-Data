@@ -8,7 +8,7 @@ def main():
     if len(sys.argv) == 1:
         return
     elif sys.argv[1] == "-h" or sys.argv[1] == "-help":
-        print("-a: create table if not exists")
+        print("-c: create table if not exists")
         print("-d: drop table if exists")
         print("-s: select all from")
         print("-n: names of all tables")
