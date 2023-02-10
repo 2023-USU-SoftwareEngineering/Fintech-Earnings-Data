@@ -1,5 +1,5 @@
 # run main from the command line with arguments to make tables in the database
-# -c to add, -d to delete, and -s to select/show info from table
+# -h or -help for help, -c to add, -d to delete, -s to select/show info from table, and -n to show the names of all tables
 # ex: py main.py -c Google
 # makes the table Google in database
 # ex: py main.py -d Google

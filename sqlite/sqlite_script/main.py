@@ -11,6 +11,7 @@ def main():
         print("-a: create table if not exists")
         print("-d: drop table if exists")
         print("-s: select all from")
+        print("-n: names of all tables")
     connection = None
     try:
         connection = sqlite3.connect(os.getcwd()[:-13] + "db/Fintech.db")
@@ -41,7 +42,15 @@ def main():
                 for row in rows:
                     print(row)
             connection.close()
+        elif sys.argv[1] == "-n":
+            c.execute(
+                "SELECT name FROM sqlite_schema WHERE type ='table' AND name NOT LIKE 'sqlite_%';"
+            )
+            rows = c.fetchall()
+            for row in rows:
+                print(row)
+            connection.close()
 
-    
+
 if __name__ == '__main__':
     main()
