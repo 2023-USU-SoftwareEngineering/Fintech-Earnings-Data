@@ -8,7 +8,7 @@ def main():
     if len(sys.argv) == 1:
         return
     elif sys.argv[1] == "-h" or sys.argv[1] == "-help":
-        print("-a: create table if not exists")
+        print("-c: create table if not exists")
         print("-d: drop table if exists")
         print("-s: select all from")
         print("-n: names of all tables")
@@ -29,7 +29,7 @@ def main():
         elif sys.argv[1] == "-d":
             for arg in sys.argv[2:]:
                 c.execute(
-                    "DROP TABLE IF EXISTS" + arg
+                    "DROP TABLE IF EXISTS " + arg
                 )
                 connection.commit()
             connection.close()
@@ -44,7 +44,7 @@ def main():
             connection.close()
         elif sys.argv[1] == "-n":
             c.execute(
-                "SELECT name FROM sqlite_schema WHERE type ='table' AND name NOT LIKE 'sqlite_%';"
+                "SELECT name FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%';"
             )
             rows = c.fetchall()
             for row in rows:
