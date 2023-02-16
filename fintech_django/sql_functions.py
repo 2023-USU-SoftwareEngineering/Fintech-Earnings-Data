@@ -10,7 +10,7 @@ def get_companies():
     return_array = []
     connection = None
     try:
-        connection = sqlite3.connect(os.getcwd()[:-28] + "sqlite/db/Fintech.db")
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite/db/Fintech.db")
     except Error as e:
         print(e)
     if connection:
@@ -32,7 +32,7 @@ def get_history(start_date, end_date, company_name):
     return_array = []
     connection = None
     try:
-        connection = sqlite3.connect(os.getcwd()[:-28] + "sqlite/db/Fintech.db")
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite/db/Fintech.db")
     except Error as e:
         print(e)
     if connection:
@@ -53,7 +53,7 @@ def get_prediction(company_name):
     return_array = []
     connection = None
     try:
-        connection = sqlite3.connect(os.getcwd()[:-28] + "sqlite.db/Fintech.db")
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
     except Error as e:
         print(e)
     if connection:
