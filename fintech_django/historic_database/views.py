@@ -21,11 +21,8 @@ def pull(request):
         }
         return JsonResponse(data)
 
-    from_str = from_str.replace('.', '/')
-    from_date = datetime.strptime(from_str, '%Y/%m/%d')
-    to_str = from_str.replace('.', '/')
-    to_date = datetime.strptime(to_str, '%Y/%m/%d')
-    # TODO: convert dates to numerical value. Ask Rett
+    from_date = datetime.strptime(from_str, '%Y.%m.%d')
+    to_date = datetime.strptime(to_str, '%Y.%m.%d')
 
     companies = get_companies()
     companies = json.loads(companies)
@@ -40,12 +37,11 @@ def pull(request):
         }
         return JsonResponse(data)
 
-    # TODO: make API communicate with sqlite database
-    # history = json.loads(get_history(from_date, to_date, company_str))
-    history = {
+    history = json.loads(get_history(from_date, to_date, company_str))
+    response = {
         'company': company_str,
         'from': from_date,
         'to': to_date,
-        'history': 'Test response. Actual data pull to be implemented',
+        'history': history,
     }
-    return JsonResponse(history)
+    return JsonResponse(response)

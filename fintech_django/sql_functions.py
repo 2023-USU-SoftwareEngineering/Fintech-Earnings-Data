@@ -2,6 +2,7 @@ import sqlite3
 from sqlite3 import Error
 import os
 import json
+from datetime import datetime
 
 
 # returns json of an array of the company names
@@ -38,7 +39,9 @@ def get_history(start_date, end_date, company_name):
     if connection:
         c = connection.cursor()
         c.execute(
-            "SELECT * FROM " + company_name + " WHERE date > " + start_date + " AND date < " + end_date
+            # "SELECT * FROM " + company_name + " WHERE date > " + convert_date(start_date)
+            # + " AND date < " + convert_date(end_date)
+            f"SELECT * FROM {company_name} WHERE date > {convert_date(start_date)} AND date < {convert_date(end_date)}"
         )
         rows = c.fetchall()
         for row in rows:
@@ -67,3 +70,12 @@ def get_prediction(company_name):
         connection.close()
     return_dictionary["info"] = return_array
     return json.dumps(return_dictionary, indent = 4)
+
+
+def convert_date(date):
+    """
+    Converts a datetime object to unix epoch time, for use in our database
+    """
+    if not isinstance(date, datetime):
+        date = datetime.strptime(date, '%Y.%m.%d')
+    return int(date.timestamp())
