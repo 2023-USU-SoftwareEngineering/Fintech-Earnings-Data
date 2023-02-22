@@ -14,7 +14,7 @@ def main():
         print("-n: names of all tables")
     connection = None
     try:
-        connection = sqlite3.connect(os.getcwd()[:-13] + "db/Fintech.db")
+        connection = sqlite3.connect(os.getcwd() + "/../db/Fintech.db")
     except Error as e:
         print(e)
     if connection:

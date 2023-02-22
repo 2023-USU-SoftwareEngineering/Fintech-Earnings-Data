@@ -28,7 +28,7 @@ def get_companies():
 
 
 # return json of an array of info between the dates from the companyName
-def get_history(start_date, end_date, company_name):
+def get_history(start_date: datetime, end_date: datetime, company_name: str):
     return_dictionary = {"info": []}
     return_array = []
     connection = None
@@ -41,7 +41,7 @@ def get_history(start_date, end_date, company_name):
         c.execute(
             # "SELECT * FROM " + company_name + " WHERE date > " + convert_date(start_date)
             # + " AND date < " + convert_date(end_date)
-            f"SELECT * FROM {company_name} WHERE date > {convert_date(start_date)} AND date < {convert_date(end_date)}"
+            f"SELECT * FROM {company_name} WHERE date >= {convert_date(start_date)} AND date <= {convert_date(end_date)}"
         )
         rows = c.fetchall()
         for row in rows:
@@ -72,10 +72,10 @@ def get_prediction(company_name):
     return json.dumps(return_dictionary, indent = 4)
 
 
-def convert_date(date):
+def convert_date(date: datetime):
     """
     Converts a datetime object to unix epoch time, for use in our database
     """
-    if not isinstance(date, datetime):
-        date = datetime.strptime(date, '%Y.%m.%d')
+    # if not isinstance(date, datetime):
+    #     date = datetime.strptime(date, '%Y.%m.%d')
     return int(date.timestamp())
