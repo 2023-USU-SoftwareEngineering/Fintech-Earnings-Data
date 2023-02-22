@@ -5,9 +5,7 @@ import json
 from datetime import datetime
 
 
-# returns json of an array of the company names
-def get_companies():
-    return_dictionary = {"info": []}
+def get_companies_help():
     return_array = []
     connection = None
     try:
@@ -23,7 +21,12 @@ def get_companies():
         for row in rows:
             return_array.append(row)
         connection.close()
-    return_dictionary["info"] = return_array
+    return return_array
+
+
+# returns json of an array of the company names
+def get_companies():
+    return_dictionary = {"info": get_companies_help()}
     return json.dumps(return_dictionary, indent=4)
 
 
@@ -62,14 +65,14 @@ def get_prediction(company_name):
     if connection:
         c = connection.cursor()
         c.execute(
-            "Select * FROM <COMPANY> WHERE <NAME> = '" + company_name + "'"
+            f"Select * FROM <COMPANY> WHERE <NAME> = '{company_name}'"
         )
         rows = c.fetchall()
         for row in rows:
             return_array.append(row)
         connection.close()
     return_dictionary["info"] = return_array
-    return json.dumps(return_dictionary, indent = 4)
+    return json.dumps(return_dictionary, indent=4)
 
 
 def convert_date(date: datetime):
@@ -79,3 +82,30 @@ def convert_date(date: datetime):
     # if not isinstance(date, datetime):
     #     date = datetime.strptime(date, '%Y.%m.%d')
     return int(date.timestamp())
+
+
+def add_prediction(company_name, prediction):
+    connection = None
+    try:
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
+    except Error as e:
+        print(e)
+    if connection:
+        c = connection.cursor()
+        c.execute(
+            f"INSERT INTO <COMPANY> (<NAME>, <PREDICTION>) VALUES ('{company_name}',{prediction})"
+        )
+        connection.close()
+
+
+def add_history(date: datetime, company_name, price, io):
+    connection = None
+    try:
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
+    except Error as e:
+        print(e)
+    if connection:
+        c = connection.cursor()
+        c.execute(
+            f"INSERT INTO {company_name} (date, price, input) VALUES ({convert_date(date)}, {price}, '{io}')"
+        )
