@@ -1,27 +1,33 @@
 import requests
 import math
+from datetime import date
 import pandas as pd
-imort IPython.display import display
+from IPython.display import display
+
+# This file contains a function that gets an earnings call transcript given a company, year and quarter
+# as well as a function that populates a dataframe with the the transcripts.  The dataframes rows are each company
+# and the columns are yearly quarters
+
+# this is the list of companies that will be populated in the dataframe
+COMPANYS = ['AAPL', 'GOOGL'] #, 'MSFT', 'INTC', 'AMD']
 
 
-#Jan, April, July, Oct are usually when the quarters happen
-
-companyTranscript = []
-
+# this function calls the api to get the companies transcript
 def getTransctipt(company, year, quarter):
 
+    companyTranscript = []
     # COUNT is to get how many countRemarks are in the quarter transcript
     COUNT = {'key': 'C4E78FF3DEE74FADA9A117A256860987',
                   'company': company,
                   'year': year,
                   'quarter': quarter,
-                  'countremarks': 'True',
+                  'countremarks': True,
              }
 
-    countremarks = ((requests.get("https://api.aletheiaapi.com/EarningsCall", COUNT)).json())['RemarksCount']
-    #print(countremarks)
+    countremarks = ((requests.get("https://api.aletheiaapi.com/EarningsCall", COUNT)).json())
+    print(countremarks)
 
-    number_calls = math.ceil(countremarks / 19)
+    number_calls = math.ceil(countremarks['RemarksCount'] / 19)
 
     # loop gets all remarks from compay's call and puts them in a list
     for i in range(number_calls):
@@ -39,21 +45,48 @@ def getTransctipt(company, year, quarter):
             remark = data[j]['Remark']
             companyTranscript.append(remark)
 
-    print(companyTranscript)
+    # print(companyTranscript)
+    return companyTranscript
 
 
-getTransctipt('DLTR', '2019', 'q1')
+# this function populates a dataframe with companies transcripts starting at a specified year
+# companys is a list of strings and year is an int
+def populateDF(companys, year):
+
+    todays_date = date.today()
+    startYear2 = year
+
+    # get column names of DF
+    columns = []
+    while startYear2 <= todays_date.year:
+        for i in range(1, 5):
+            columns.append(str(startYear2) + ' q' + str(i))
+        startYear2 += 1
+
+    transcriptDF = pd.DataFrame(columns=columns)
+
+    for comp in companys:
+        startYear = year
+        allCompanyTranscripts = []
+        while startYear <= todays_date.year:
+            #this loop is gets the 4 quarters in a year
+            for i in range(1, 5):
+                try:
+                    allCompanyTranscripts.append(getTransctipt(comp, startYear, 'q'+str(i)))
+                except:
+                    allCompanyTranscripts.append(None)
+
+            startYear += 1
+
+        transcriptDF.loc[comp] = allCompanyTranscripts
+
+    display(transcriptDF)
+    #print(transcriptDF)
 
 
-# up to this point puts the asked for info in a list
-
-# after this point is testing code so far
-# todo: I need to make a lot of calls and put them all in a data frame to be accessed
-# todo: The trascript will be the list in as a df entry, each company will be a row, columns will contain the transcript from each quarter 
-# of each year available
+# call the function to populate the dataframe with companies starting at year
+populateDF(COMPANYS, 2022)
 
 
 
-# transcriptDF = pd.DataFrame(companyTranscript, columns=['Transcript'])
-# display(transcriptDF)
-
+#Jan, April, July, Oct are usually when the quarters happen
