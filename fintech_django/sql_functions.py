@@ -1,3 +1,4 @@
+import csv
 import sqlite3
 from sqlite3 import Error
 import os
@@ -112,5 +113,23 @@ def add_history(date: datetime, company_name, price, io):
 
 
 def output_to_csv():
-    
-    return
+    connection = None
+    try:
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite/db/Fintech.db")
+    except Error as e:
+        print(e)
+    if connection:
+        c = connection.cursor()
+        result = list()
+        for name in get_companies_help():
+            c.execute(
+                f"SELECT * FROM {name};"
+            )
+            rows = c.fetchall()
+            for row in rows:
+                result.append(row)
+        with open(os.getcwd() + "/../sqlite/db/Fintech.csv", 'w', newline='') as csvfile:
+            csvwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            for row in result:
+                csvwriter.writerow(row)
+        connection.close()
