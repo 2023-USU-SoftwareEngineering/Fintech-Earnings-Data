@@ -12,6 +12,8 @@ def main():
         print("-d: drop table if exists")
         print("-s: select all from")
         print("-n: names of all tables")
+        print("-cp: create prediction table")
+        print("-sp: select all from prediction table")
     connection = None
     try:
         connection = sqlite3.connect(os.getcwd() + "/../db/Fintech.db")
@@ -22,21 +24,21 @@ def main():
         if sys.argv[1] == "-c":
             for arg in sys.argv[2:]:
                 c.execute(
-                    "CREATE TABLE IF NOT EXISTS " + arg + " ([date] INTEGER PRIMARY KEY, [price] INTEGER, [input] TEXT)"
+                    f"CREATE TABLE IF NOT EXISTS {arg} ([date] INTEGER PRIMARY KEY, [price] INTEGER, [input] TEXT);"
                 )
                 connection.commit()
             connection.close()
         elif sys.argv[1] == "-d":
             for arg in sys.argv[2:]:
                 c.execute(
-                    "DROP TABLE IF EXISTS " + arg
+                    f"DROP TABLE IF EXISTS {arg};"
                 )
                 connection.commit()
             connection.close()
         elif sys.argv[1] == "-s":
             for arg in sys.argv[2:]:
                 c.execute(
-                    "SELECT * FROM " + arg
+                    f"SELECT * FROM {arg};"
                 )
                 rows = c.fetchall()
                 for row in rows:
@@ -45,6 +47,20 @@ def main():
         elif sys.argv[1] == "-n":
             c.execute(
                 "SELECT name FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%';"
+            )
+            rows = c.fetchall()
+            for row in rows:
+                print(row)
+            connection.close()
+        elif sys.argv[1] == "-cp":
+            c.execute(
+                "CREATE TABLE IF NOT EXISTS prediction ([name] TEXT, [prediction] INTEGER);"
+            )
+            connection.commit()
+            connection.close()
+        elif sys.argv[1] == "-sp":
+            c.execute(
+                "SELECT * FROM prediction;"
             )
             rows = c.fetchall()
             for row in rows:

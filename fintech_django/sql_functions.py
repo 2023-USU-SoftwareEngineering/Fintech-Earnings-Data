@@ -15,7 +15,7 @@ def get_companies_help():
     if connection:
         c = connection.cursor()
         c.execute(
-            "SELECT name FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%';"
+            "SELECT name FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%' AND name !='prediction';"
         )
         rows = c.fetchall()
         for row in rows:
@@ -44,7 +44,7 @@ def get_history(start_date: datetime, end_date: datetime, company_name: str):
         c.execute(
             # "SELECT * FROM " + company_name + " WHERE date > " + convert_date(start_date)
             # + " AND date < " + convert_date(end_date)
-            f"SELECT * FROM {company_name} WHERE date >= {convert_date(start_date)} AND date <= {convert_date(end_date)}"
+            f"SELECT * FROM {company_name} WHERE date >= {convert_date(start_date)} AND date <= {convert_date(end_date)};"
         )
         rows = c.fetchall()
         for row in rows:
@@ -65,7 +65,7 @@ def get_prediction(company_name):
     if connection:
         c = connection.cursor()
         c.execute(
-            f"Select * FROM <COMPANY> WHERE <NAME> = '{company_name}'"
+            f"Select * FROM prediction WHERE <NAME> = '{company_name}';"
         )
         rows = c.fetchall()
         for row in rows:
@@ -93,7 +93,7 @@ def add_prediction(company_name, prediction):
     if connection:
         c = connection.cursor()
         c.execute(
-            f"INSERT INTO <COMPANY> (<NAME>, <PREDICTION>) VALUES ('{company_name}',{prediction})"
+            f"INSERT INTO prediction (name, prediction) VALUES ('{company_name}',{prediction});"
         )
         connection.close()
 
@@ -107,5 +107,10 @@ def add_history(date: datetime, company_name, price, io):
     if connection:
         c = connection.cursor()
         c.execute(
-            f"INSERT INTO {company_name} (date, price, input) VALUES ({convert_date(date)}, {price}, '{io}')"
+            f"INSERT INTO {company_name} (date, price, input) VALUES ({convert_date(date)}, {price}, '{io}');"
         )
+
+
+def output_to_csv():
+    
+    return
