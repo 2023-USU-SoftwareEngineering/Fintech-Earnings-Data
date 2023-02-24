@@ -99,7 +99,7 @@ def add_prediction(company_name, prediction):
         connection.close()
 
 
-def add_history(date: datetime, company_name, price, io):
+def add_history(date: datetime, company_name, price, transcript):
     connection = None
     try:
         connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
@@ -108,7 +108,7 @@ def add_history(date: datetime, company_name, price, io):
     if connection:
         c = connection.cursor()
         c.execute(
-            f"INSERT INTO {company_name} (date, price, input) VALUES ({convert_date(date)}, {price}, '{io}');"
+            f"INSERT INTO {company_name} (date, price, input) VALUES ({convert_date(date)}, {price}, '{transcript}');"
         )
 
 
