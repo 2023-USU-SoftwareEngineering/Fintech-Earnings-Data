@@ -6,3 +6,8 @@ def index(request):
     context = {'adjective': "awesome"}
     return render(request, 'earnings_data/index.html', context)
 
+
+
+
+def predictions(request):
+    return render(request, 'earnings_data/predictions.html')
