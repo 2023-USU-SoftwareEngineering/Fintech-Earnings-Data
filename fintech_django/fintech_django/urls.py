@@ -15,9 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from . import views
 
 urlpatterns = [
     path('', include('earnings_data.urls')),
     path('admin/', admin.site.urls),
     path('history/', include('historic_database.urls')),
+    path('prediction/', include('prediction_database.urls')),
+    path('companies/', include('get_companies.urls')),
+    path('gitUpdate/', views.git_update, name="gitUpdate"),
 ]
