@@ -86,6 +86,7 @@ def populateDF(companys, year):
 
 
 # call the function to populate the dataframe with companies starting at year
+# the Data frame has date, transcript, and company sign
 populateDF(COMPANYS, 2023)
 
 
