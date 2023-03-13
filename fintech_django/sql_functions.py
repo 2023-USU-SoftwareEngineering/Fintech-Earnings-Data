@@ -55,7 +55,7 @@ def get_history(start_date: datetime, end_date: datetime, company_name: str):
     return json.dumps(return_dictionary, indent=4)
 
 
-def get_prediction(company_name):
+def get_prediction(company_name: str):
     return_dictionary = {"info": []}
     return_array = []
     connection = None
@@ -85,7 +85,7 @@ def convert_date(date: datetime):
     return int(date.timestamp())
 
 
-def add_prediction(company_name, prediction):
+def add_prediction(company_name: str, prediction: float):
     connection = None
     try:
         connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
@@ -99,7 +99,7 @@ def add_prediction(company_name, prediction):
         connection.close()
 
 
-def add_history(date: datetime, company_name, price, transcript):
+def add_history(date: datetime, company_name: str, price: float, transcript: str):
     connection = None
     try:
         connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
