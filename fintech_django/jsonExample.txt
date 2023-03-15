@@ -1,0 +1,28 @@
+get_companies()
+
+{
+    "info": ["Google", "Facebook", etc.]
+}
+
+get_history(start_date: datetime, end_date: datetime, company_name: str):
+
+{
+    "info":
+    [
+    (date, price, input),
+    (date, price, input),
+    etc.
+    ]
+}
+
+get_predictions(company_name: str)
+
+{
+    "info":
+    [
+    (name, prediction),
+    (name, prediction),
+    etc.
+    ]
+}
+ps. should only have unique names in table so only one tuple in list

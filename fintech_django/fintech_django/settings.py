@@ -33,6 +33,8 @@ ALLOWED_HOSTS = ['mater.cs.usu.edu', '127.0.0.1', 'localhost']
 INSTALLED_APPS = [
     'earnings_data.apps.EarningsDataConfig',
     'historic_database.apps.HistoricDatabaseConfig',
+    'prediction_database.apps.PredictionDatabaseConfig',
+    'get_companies.apps.GetCompaniesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,7 +58,7 @@ ROOT_URLCONF = 'fintech_django.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
