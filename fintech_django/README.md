@@ -55,13 +55,14 @@ This will return a JSON object inluding the history.
 ### Prediction
 URL:
 ```
-http://<insert url here>:8000/prediction/pull?COMPANY
+http://<insert url here>:8000/prediction/pull?COMPANY&TYPE
 ```
 Where `COMPANY` is replaced by the following:
 * company = Google | Apple | Amazon, etc.
-
-For instance, to get the prediction engine's prediction on Apple:
+and 'TYPE' is replaced by the following:
+* type = short | medium | long
+For instance, to get the prediction engine's prediction on Apple with a short prediction:
 ```
-http://<insert url here>:8000/prediction/pull?company=Apple
+http://<insert url here>:8000/prediction/pull?company=Apple&type=short
 ```
-This will return a JSON object of the company's prediction.
+This will return a JSON object of the company's short prediction.

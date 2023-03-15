@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 # Django gets cranky with relative imports.
 # At some point I should pull the ..sql_functions.py file into this directory so pycharm doesn't throw errors either
-from sql_functions import get_companies, get_prediction
+from sql_functions import get_companies, get_prediction_short, get_prediction_medium, get_prediction_long
 import json
 
 
@@ -12,6 +12,7 @@ def index(request):
 
 def pull(request):
     company_str = request.GET.get('company')
+    type = request.Get.get('type')
     if company_str is None:
         data = {
             'error': 'Invalid request. See usage'
@@ -31,7 +32,17 @@ def pull(request):
         }
         return JsonResponse(data)
 
-    prediction = json.loads(get_prediction(company_str))
+    if type == 'short':
+        prediction = json.loads(get_prediction_short)
+    elif type == 'medium':
+        prediction = json.loads(get_prediction_medium)
+    elif type == 'long':
+        prediction = json.loads(get_prediction_long)
+    else:
+        data = {
+            'error': 'Type of prediction is invalid. See usage'
+        }
+        return JsonResponse(data)
     response = {
         'company': company_str,
         'prediction': prediction,
