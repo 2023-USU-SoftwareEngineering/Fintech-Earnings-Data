@@ -12,8 +12,13 @@ def main():
         print("-d: drop table if exists")
         print("-s: select all from")
         print("-n: names of all tables")
-        print("-cp: create prediction table")
-        print("-sp: select all from prediction table")
+        print("-cs: create short prediction table")
+        print("-cm: create medium prediction table")
+        print("-cl: create long prediction table")
+        print("-ss: select all from short prediction table")
+        print("-sm: select all from medium prediction table")
+        print("-sl: select all from long prediction table")
+
     connection = None
     try:
         connection = sqlite3.connect(os.getcwd() + "/../db/Fintech.db")
@@ -52,15 +57,49 @@ def main():
             for row in rows:
                 print(row)
             connection.close()
-        elif sys.argv[1] == "-cp":
+        elif sys.argv[1] == "-cs":
             c.execute(
                 "CREATE TABLE IF NOT EXISTS prediction ([name] TEXT, [prediction] INTEGER);"
             )
             connection.commit()
             connection.close()
-        elif sys.argv[1] == "-sp":
+        elif sys.argv[1] == "-cs":
             c.execute(
-                "SELECT * FROM prediction;"
+                "CREATE TABLE IF NOT EXISTS prediction_short ([name] TEXT, [prediction] INTEGER);"
+            )
+            connection.commit()
+            connection.close()
+        elif sys.argv[1] == "-cm":
+            c.execute(
+                "CREATE TABLE IF NOT EXISTS prediction_medium ([name] TEXT, [prediction] INTEGER);"
+            )
+            connection.commit()
+            connection.close()
+        elif sys.argv[1] == "-cl":
+            c.execute(
+                "CREATE TABLE IF NOT EXISTS prediction_long ([name] TEXT, [prediction] INTEGER);"
+            )
+            connection.commit()
+            connection.close()
+        elif sys.argv[1] == "-ss":
+            c.execute(
+                "SELECT * FROM prediction_short;"
+            )
+            rows = c.fetchall()
+            for row in rows:
+                print(row)
+            connection.close()
+        elif sys.argv[1] == "-sm":
+            c.execute(
+                "SELECT * FROM prediction_medium;"
+            )
+            rows = c.fetchall()
+            for row in rows:
+                print(row)
+            connection.close()
+        elif sys.argv[1] == "-sl":
+            c.execute(
+                "SELECT * FROM prediction_long;"
             )
             rows = c.fetchall()
             for row in rows:

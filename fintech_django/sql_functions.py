@@ -55,7 +55,7 @@ def get_history(start_date: datetime, end_date: datetime, company_name: str):
     return json.dumps(return_dictionary, indent=4)
 
 
-def get_prediction(company_name: str):
+def get_prediction_short(company_name: str):
     return_dictionary = {"info": []}
     return_array = []
     connection = None
@@ -66,7 +66,49 @@ def get_prediction(company_name: str):
     if connection:
         c = connection.cursor()
         c.execute(
-            f"Select * FROM prediction WHERE <NAME> = '{company_name}';"
+            f"Select * FROM prediction_short WHERE <NAME> = '{company_name}';"
+        )
+        rows = c.fetchall()
+        for row in rows:
+            return_array.append(row)
+        connection.close()
+    return_dictionary["info"] = return_array
+    return json.dumps(return_dictionary, indent=4)
+
+
+def get_prediction_medium(company_name: str):
+    return_dictionary = {"info": []}
+    return_array = []
+    connection = None
+    try:
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
+    except Error as e:
+        print(e)
+    if connection:
+        c = connection.cursor()
+        c.execute(
+            f"Select * FROM prediction_medium WHERE <NAME> = '{company_name}';"
+        )
+        rows = c.fetchall()
+        for row in rows:
+            return_array.append(row)
+        connection.close()
+    return_dictionary["info"] = return_array
+    return json.dumps(return_dictionary, indent=4)
+
+
+def get_prediction_long(company_name: str):
+    return_dictionary = {"info": []}
+    return_array = []
+    connection = None
+    try:
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
+    except Error as e:
+        print(e)
+    if connection:
+        c = connection.cursor()
+        c.execute(
+            f"Select * FROM prediction_long WHERE <NAME> = '{company_name}';"
         )
         rows = c.fetchall()
         for row in rows:
@@ -85,7 +127,7 @@ def convert_date(date: datetime):
     return int(date.timestamp())
 
 
-def add_prediction(company_name: str, prediction: float):
+def add_prediction_short(company_name: str, prediction: float):
     connection = None
     try:
         connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
@@ -94,7 +136,35 @@ def add_prediction(company_name: str, prediction: float):
     if connection:
         c = connection.cursor()
         c.execute(
-            f"INSERT INTO prediction (name, prediction) VALUES ('{company_name}',{prediction});"
+            f"INSERT INTO prediction_short (name, prediction) VALUES ('{company_name}',{prediction});"
+        )
+        connection.close()
+
+
+def add_prediction_medium(company_name: str, prediction: float):
+    connection = None
+    try:
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
+    except Error as e:
+        print(e)
+    if connection:
+        c = connection.cursor()
+        c.execute(
+            f"INSERT INTO prediction_medium (name, prediction) VALUES ('{company_name}',{prediction});"
+        )
+        connection.close()
+
+
+def add_prediction_long(company_name: str, prediction: float):
+    connection = None
+    try:
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
+    except Error as e:
+        print(e)
+    if connection:
+        c = connection.cursor()
+        c.execute(
+            f"INSERT INTO prediction_long (name, prediction) VALUES ('{company_name}',{prediction});"
         )
         connection.close()
 
