@@ -51,7 +51,7 @@ def main():
             connection.close()
         elif sys.argv[1] == "-n":
             c.execute(
-                "SELECT name FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%';"
+                "SELECT name FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE 'prediction';"
             )
             rows = c.fetchall()
             for row in rows:
