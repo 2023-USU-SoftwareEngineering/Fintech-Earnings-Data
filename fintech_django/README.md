@@ -61,6 +61,8 @@ Where `COMPANY` is replaced by the following:
 * company = Google | Apple | Amazon, etc.
 and 'TYPE' is replaced by the following:
 * type = short | medium | long
+* type may also use these characters: s, m, l
+
 For instance, to get the prediction engine's prediction on Apple with a short prediction:
 ```
 http://<insert url here>:8000/prediction/pull?company=Apple&type=short

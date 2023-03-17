@@ -32,11 +32,11 @@ def pull(request):
         }
         return JsonResponse(data)
 
-    if type == 'short':
+    if type == 'short' or type == 's':
         prediction = json.loads(get_prediction_short)
-    elif type == 'medium':
+    elif type == 'medium' or type == 'm':
         prediction = json.loads(get_prediction_medium)
-    elif type == 'long':
+    elif type == 'long' or type == 'l':
         prediction = json.loads(get_prediction_long)
     else:
         data = {
