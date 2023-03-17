@@ -12,8 +12,8 @@ def index(request):
 
 def pull(request):
     company_str = request.GET.get('company')
-    type = request.Get.get('type')
-    if company_str is None:
+    type_str = request.GET.get('type')
+    if company_str is None or type_str is None:
         data = {
             'error': 'Invalid request. See usage'
         }
@@ -32,12 +32,12 @@ def pull(request):
         }
         return JsonResponse(data)
 
-    if type == 'short' or type == 's':
-        prediction = json.loads(get_prediction_short)
-    elif type == 'medium' or type == 'm':
-        prediction = json.loads(get_prediction_medium)
-    elif type == 'long' or type == 'l':
-        prediction = json.loads(get_prediction_long)
+    if type_str == 'short' or type_str == 's':
+        prediction = json.loads(get_prediction_short(company_str))
+    elif type_str == 'medium' or type_str == 'm':
+        prediction = json.loads(get_prediction_medium(company_str))
+    elif type_str == 'long' or type_str == 'l':
+        prediction = json.loads(get_prediction_long(company_str))
     else:
         data = {
             'error': 'Type of prediction is invalid. See usage'
@@ -45,6 +45,7 @@ def pull(request):
         return JsonResponse(data)
     response = {
         'company': company_str,
+        'type': type_str,
         'prediction': prediction,
     }
     return JsonResponse(response)
