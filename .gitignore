@@ -6,3 +6,4 @@ __pycache__
 *.zip
 *.bak
 .idea
+fintechrouted/node_modules/
