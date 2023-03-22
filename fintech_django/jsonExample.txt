@@ -15,7 +15,7 @@ get_history(start_date: datetime, end_date: datetime, company_name: str):
     ]
 }
 
-get_predictions(company_name: str)
+get_predictions_short(company_name: str)
 
 {
     "info":
@@ -26,3 +26,6 @@ get_predictions(company_name: str)
     ]
 }
 ps. should only have unique names in table so only one tuple in list
+
+get_predictions-medium(company_name: str) - same as get_predictions_short, but for medium
+get_predictions-long(company_name: str) - same as get_predictions_short, but for long
