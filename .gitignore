@@ -8,3 +8,4 @@ __pycache__
 .idea
 fintechrouted/node_modules/
 fintechrouted/package-lock.json
+dist/
