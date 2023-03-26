@@ -1,82 +1,99 @@
 <template>
-    <div class="pricetrend" id="the-weather">
+    <div class="pricetrend" id="pricetrend">
       <header>
-
       </header>
-
       <section>
-
       </section>
-
-      http://127.0.0.1:8000/prediction/pull?company=Google
+  <form action="/action_page.php">
+  <label for="prediction">Select a time period: </label>
+  <select id="time" name="time">
+    <option value="short">Short</option>
+    <option value="medium">Medium</option>
+    <option value="long">Long</option>
+  </select>
+  <select id="companies" name="companies">
+  </select>
+  </form>
+  <button @click="getPrediction()">Get Prediction</button>
     </div>
+    
   </template>
 
   <script>
-    async function populate() {
+  // This export and populate function will run whenever you open the pricetrend page
+    export default {
+      mounted() {
+        this.myMethod();
+      },
+      methods: {
+      myMethod() {
+        //console.log('This runs every time you open the page');
+        async function populate() {
+          //Gather the list of companies and store them into the variable "companies"
+          const requestURL = 'http://localhost:8000/companies/list'; //change to mater
+          const request = new Request(requestURL);
 
-    /*const requestURL = 'https://mdn.github.io/learning-area/javascript/oojs/json/superheroes.json';*/
-    const requestURL = 'http://localhost:8000/prediction/pull?company=Google';
-    // const request = new Request(requestURL);
+          const response = await fetch(request);
+          const companies = await response.json();
+          
+          // Test to make sure the list got pulled
+          //console.log(companies.info[1][0]);
 
-    // const response = await fetch(request);
-    // const superHeroes = await response.json();
+          // Create and then select the drop down element for the companies in the form
+          var companydropdown = document.getElementById("companies");
 
-      let response = fetch(requestURL)
-        .then(r => r.json())
-        .catch(err => {
-          console.log(err);
-        })
-
-    /*populateHeader(superHeroes);
-    populateHeroes(superHeroes);*/
-    console.log(response);
-    }
-
-    /*function populateHeader(obj) {
-      const header = document.querySelector('header');
-      const myH1 = document.createElement('h1');
-      myH1.textContent = obj.squadName;
-      header.appendChild(myH1);
-
-      const myPara = document.createElement('p');
-      myPara.textContent = `Hometown: ${obj.homeTown} // Formed: ${obj.formed}`;
-      header.appendChild(myPara);
-    }
-
-    function populateHeroes(obj) {
-      const section = document.querySelector('section');
-      const heroes = obj.members;
-
-      for (const hero of heroes) {
-        const myArticle = document.createElement('article');
-        const myH2 = document.createElement('h2');
-        const myPara1 = document.createElement('p');
-        const myPara2 = document.createElement('p');
-        const myPara3 = document.createElement('p');
-        const myList = document.createElement('ul');
-
-        myH2.textContent = hero.name;
-        myPara1.textContent = `Secret identity: ${hero.secretIdentity}`;
-        myPara2.textContent = `Age: ${hero.age}`;
-        myPara3.textContent = 'Superpowers:';
-
-        const superPowers = hero.powers;
-        for (const power of superPowers) {
-          const listItem = document.createElement('li');
-          listItem.textContent = power;
-          myList.appendChild(listItem);
+          // Condition to make sure it does not load the company list into the drop down more than once, by checking to see if the first company listed is already an option
+          var elementExists = document.getElementById(companies.info[0]);
+          if (!(elementExists)) {
+            //console.log('Populating the company list drop down');
+            // Populates the drop down box with companies from our server
+            for (var i=0; i < companies.info.length; i++) {
+            var companyoption = document.createElement("option");
+            companyoption.setAttribute("value", companies.info[i]);
+            companyoption.setAttribute("id", companies.info[i]);
+            companyoption.textContent = companies.info[i][0];
+            companydropdown.appendChild(companyoption);
+            }
+          }
         }
+        populate();
+        return 'hello world!';
+      },
+      async getPrediction() {
+        // Saves the selected values from the form
+        var timevalue = document.getElementById("time").value;
+        var companyvalue = document.getElementById("companies").value;
 
-        myArticle.appendChild(myH2);
-        myArticle.appendChild(myPara1);
-        myArticle.appendChild(myPara2);
-        myArticle.appendChild(myPara3);
-        myArticle.appendChild(myList);
+        // Test to make sure it pulled the selected values
+        //console.log(timevalue);
+        //console.log(companyvalue);
 
-        section.appendChild(myArticle);
+        const requestURLresult = 'http://localhost:8000/prediction/pull?company='+companyvalue+'&type='+timevalue; //change to mater
+        const requestresult = new Request(requestURLresult);
+
+        const responseresult = await fetch(requestresult);
+        const companiesresult = await responseresult.json();
+        console.log(companiesresult.prediction.info); // update once prediction data is formatted
+
+        // Create the result element and add it to the document
+        // First get the element of the page itself
+        var mainpage = document.getElementById("pricetrend");
+
+        // Then check for the previous prediction (if any) and remove it
+        var predictionExists = document.getElementById("finalresult");
+        if ((predictionExists)) {
+          predictionExists.remove();
+          console.log('Deleted Old Prediction')
+        }
+        // Then create a div for the result and append it
+        var resultelement = document.createElement("div");
+        resultelement.setAttribute("id", "finalresult");
+        resultelement.textContent = "Prediction goes here"; //Change this to print the prediction value, maybe set up a dummy value to test?
+        mainpage.appendChild(resultelement);
+        console.log('New Prediction made!')
+
+        return 'hello world!';
       }
-    } */
-
-    populate();
+    },
+    }
   </script>
