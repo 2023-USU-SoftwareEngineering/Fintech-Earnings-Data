@@ -48,9 +48,13 @@ class StockData:
         numMonths number of months you would like to find the average stock price
 
         """
+
         totalDays = 30*numMonths  # Round down to 30 days in a month
 
         date = datetime.strptime(startDate, "%Y-%m-%d").date()  # + timedelta(days=1)
+
+        if dateForm.today() + timedelta(totalDays) > date:
+            return None
 
         total = 0  # sum of all the stock prices
         count = 0  # number of days that reported stock prices in the 31 day range
@@ -67,7 +71,7 @@ if __name__ == "__main__":
 
     apple = StockData("AAPL")
     print(apple.getStockPrice("2023-02-24"))
-    print(apple.getAverageStockPrice("2023-01-10"))
+    print(apple.getAverageStockPrice("2023-02-10", 3))
 
 
 
