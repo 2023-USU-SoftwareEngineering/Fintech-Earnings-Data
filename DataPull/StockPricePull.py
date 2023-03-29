@@ -53,7 +53,7 @@ class StockData:
 
         date = datetime.strptime(startDate, "%Y-%m-%d").date()  # + timedelta(days=1)
 
-        if dateForm.today() + timedelta(totalDays) < date:
+        if date + timedelta(totalDays) > dateForm.today():
             return None
 
         total = 0  # sum of all the stock prices
