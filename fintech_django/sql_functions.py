@@ -178,9 +178,24 @@ def add_history(date: datetime, company_name: str, price: float, transcript: str
     if connection:
         c = connection.cursor()
         c.execute(
-            f"INSERT INTO {company_name} (date, price, input) VALUES ({convert_date(date)}, {price}, '{transcript}');"
+            f"INSERT INTO {company_name} (date, price, input) VALUES ({convert_date(date)}, {price}, '{transcript}');
         )
 
+# mock new add_history 
+# by adding 4 stock prices to 1 transcript 
+
+# def add_history(date: datetime, company_name: str, spDayBefore: float, spDayAfter: float, avgSp1MonthAfter: float, avgSp3MonthAfter: float, transcript: str):
+#     connection = None
+#     try:
+#         connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
+#     except Error as e:
+#         print(e)
+#     if connection:
+#         c = connection.cursor()
+#         c.execute(
+#             f"INSERT INTO {company_name} (date, spDayBefore, spDayAfter, avgSp1MonthAfter, avgSp3MonthAfter, input) VALUES ({convert_date(date)}, {price}, '{transcript}');
+#         )
+        
 
 def output_to_csv():
     connection = None
