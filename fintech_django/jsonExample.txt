@@ -9,8 +9,8 @@ get_history(start_date: datetime, end_date: datetime, company_name: str):
 {
     "info":
     [
-    (date, price, input),
-    (date, price, input),
+    (date, before, after, oneMonth, threeMonth, input),
+    (date, before, after, oneMonth, threeMonth, input),
     etc.
     ]
 }
