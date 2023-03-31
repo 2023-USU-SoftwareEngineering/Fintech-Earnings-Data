@@ -29,7 +29,7 @@ def main():
         if sys.argv[1] == "-c":
             for arg in sys.argv[2:]:
                 c.execute(
-                    f"CREATE TABLE IF NOT EXISTS {arg} ([date] INTEGER PRIMARY KEY, [price] INTEGER, [input] TEXT);"
+                    f"CREATE TABLE IF NOT EXISTS {arg} ([date] INTEGER PRIMARY KEY, [before] REAL, [after] REAL, [oneMonth] REAL, [threeMonth] REAL, [input] TEXT);"
                 )
                 connection.commit()
             connection.close()
@@ -59,19 +59,19 @@ def main():
             connection.close()
         elif sys.argv[1] == "-cs":
             c.execute(
-                "CREATE TABLE IF NOT EXISTS prediction_short ([name] TEXT, [prediction] INTEGER);"
+                "CREATE TABLE IF NOT EXISTS prediction_short ([name] TEXT, [prediction] REAL);"
             )
             connection.commit()
             connection.close()
         elif sys.argv[1] == "-cm":
             c.execute(
-                "CREATE TABLE IF NOT EXISTS prediction_medium ([name] TEXT, [prediction] INTEGER);"
+                "CREATE TABLE IF NOT EXISTS prediction_medium ([name] TEXT, [prediction] REAL);"
             )
             connection.commit()
             connection.close()
         elif sys.argv[1] == "-cl":
             c.execute(
-                "CREATE TABLE IF NOT EXISTS prediction_long ([name] TEXT, [prediction] INTEGER);"
+                "CREATE TABLE IF NOT EXISTS prediction_long ([name] TEXT, [prediction] REAL);"
             )
             connection.commit()
             connection.close()
