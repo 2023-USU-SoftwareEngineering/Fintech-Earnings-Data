@@ -5,7 +5,7 @@ from datetime import date, timedelta, datetime
 import pandas as pd
 from IPython.display import display
 from DataPull.StockPricePull import StockData
-from fintech_django import sql_functions
+from fintech_django.sql_functions import add_history
 
 
 # CURRENT YEAR START SET TO 1970
@@ -125,7 +125,7 @@ def popServer(dframe):
                 oneMonth = row["SP Avg 1 Month After"]
             if not math.isnan(row["SP Avg 3 Months After"]):
                 threeMonth = row["SP Avg 3 Months After"]
-            sql_functions.add_history(dtime, index[:-8], before, after, oneMonth, threeMonth, row["transcript"])
+            add_history(dtime, index[:-8], before, after, oneMonth, threeMonth, row["transcript"])
 
         #
         # elif math.isnan(row["SP Day Before"]):
