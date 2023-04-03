@@ -1,6 +1,4 @@
 const { defineConfig } = require('@vue/cli-service')
-module.exports = {
-  devServer: {
-    host: 'mater.cs.usu.edu'
-  }
-}
+module.exports = defineConfig({
+  transpileDependencies: true
+})
