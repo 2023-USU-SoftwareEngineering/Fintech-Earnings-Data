@@ -1,32 +1,63 @@
-
-p {
-    color: green;
+html {
+font-family: Avenir, Helvetica, Arial, sans-serif;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+/* text-align: center; */
+color: white;
+/* margin-top:60px; */
+}
+body {
+background: #080808;
+background-image: url("./assets/city.gif");
+background-size: cover;
+height: 100vh;
+padding:0;
+margin:0;
 }
 
-div {
-    background-color: orange;
+.menu {
+display: flex;
+align-items: center;
+justify-content: space-around;
+margin-top: 10px;
 }
 
-h1 {
-    text-align: center;
-    color: blue;
+.menu-item {
+flex: 1;
+text-align: center;
 }
 
-.stuff-box {
-    background-color: lightgoldenrodyellow;
-	font-family: 'helvetica neue', helvetica, sans-serif;
-	color: white;
-	letter-spacing: 1px;
-	text-align: center;
-	padding: 3px 10px;
-	margin: 10px;
-	cursor: pointer;
-	border-radius: 10px;
-	border-width: 2px;
-	border-style: solid;
+.menu-text {
+font-size: 20px;
+color: #818181;
+cursor: pointer;
+padding: 10px;
+border-bottom: 2px solid #080808;
+width: fit-content;
+margin: auto;
 }
 
-.shadowed {
-	text-shadow: 1px 1px 2px black;
-	color:       white;
+.menu-text:hover {
+border-bottom: 2px solid #c278ff;
+}
+
+/*.menu-center {
+font-size: 30px;
+color: #EAEAEA;
+}*/
+
+.menu-center:hover {
+border-bottom: 2px solid #c278ff;
+cursor: pointer;
+}
+
+.link {
+color: #818181;
+text-decoration: none;
+}
+
+.homelink {
+font-size: 30px;
+color: #EAEAEA;
+text-decoration: none;
 }
