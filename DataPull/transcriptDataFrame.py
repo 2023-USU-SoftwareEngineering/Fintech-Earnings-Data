@@ -13,11 +13,11 @@ from fintech_django import sql_functions
 
 
 # this is the list of companies that will be populated in the dataframe
-COMPANYS = [['AAPL', 'Apple'],
-              ['GOOGL', 'Google'],
-              ['MSFT', 'Microsoft'],
-              ['INTC', 'Intel'],
-              ['AMD', 'AMD']]
+COMPANIES = [['AAPL', 'Apple'],
+             ['GOOGL', 'Google'],
+             ['MSFT', 'Microsoft'],
+             ['INTC', 'Intel'],
+             ['AMD', 'AMD']]
 
 
 # this function calls the api to get the companies transcript
@@ -96,7 +96,7 @@ def populateDF(companies, year):
     return transcriptDF
 
 # call the function to populate the dataframe with companies starting at year
-fullDF = populateDF(COMPANYS, 1970)
+fullDF = populateDF(COMPANIES, 1970)
 
 #this displays the df
 #display(fullDF)
