@@ -30,7 +30,7 @@
         //console.log('This runs every time you open the page');
         async function populate() {
           //Gather the list of companies and store them into the variable "companies"
-          const requestURL = 'http://mater.cs.usu.edu:8000/companies/list'; //change to mater
+          const requestURL = 'http://localhost:8000/companies/list'; //change to mater
           const request = new Request(requestURL);
 
           const response = await fetch(request);
@@ -65,10 +65,10 @@
         var companyvalue = document.getElementById("companies").value;
 
         // Test to make sure it pulled the selected values
-        //console.log(timevalue);
-        //console.log(companyvalue);
+        console.log(timevalue);
+        console.log(companyvalue);
 
-        const requestURLresult = 'http://mater.cs.usu.edu:8000/prediction/pull?company='+companyvalue+'&type='+timevalue; //change to mater
+        const requestURLresult = 'http://localhost:8000/prediction/pull?company='+companyvalue+'&type='+timevalue; //change to mater
         const requestresult = new Request(requestURLresult);
 
         const responseresult = await fetch(requestresult);
