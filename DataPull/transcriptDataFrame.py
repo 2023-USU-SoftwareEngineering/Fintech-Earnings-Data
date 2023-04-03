@@ -8,7 +8,7 @@ from DataPull.StockPricePull import StockData
 from fintech_django import sql_functions
 
 
-# CURRENT YEAR START SET TOO 1970
+# CURRENT YEAR START SET TO 1970
 # companies in list start the earliest as found up in 1968
 
 
