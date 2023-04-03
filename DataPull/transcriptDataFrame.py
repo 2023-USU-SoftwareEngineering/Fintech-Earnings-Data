@@ -4,7 +4,7 @@ import math
 from datetime import date, timedelta, datetime
 import pandas as pd
 from IPython.display import display
-from DataPull.StockPricePull import StockData
+from StockPricePull import StockData
 from fintech_django.sql_functions import add_history
 
 
