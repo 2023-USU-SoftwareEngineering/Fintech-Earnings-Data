@@ -168,6 +168,7 @@ def add_prediction_long(company_name: str, prediction: float):
 
 
 def add_history(date: datetime, company_name: str, before: float, after: float, oneMonth: float, threeMonth: float, transcript: str):
+    transcript = transcript.replace("'", "''")
     connection = None
     try:
         connection = sqlite3.connect(os.getcwd() + "/../sqlite/db/Fintech.db")
