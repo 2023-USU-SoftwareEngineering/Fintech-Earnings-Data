@@ -103,8 +103,7 @@ fullDF = populateDF(COMPANIES, 1970)
 def popServer(dframe):
 
     for index, row in dframe.iterrows():
-        if len(row["date"]) < 8 or type(row["transcript"]) == str:
-            print(row["transcript"])
+        if len(row["date"]) < 8 or type(row["transcript"]) != str:
             #do nothing
             continue
         else:
