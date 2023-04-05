@@ -84,13 +84,10 @@ def populateDF(companies, year):
                     transcriptDF.loc[comp[1] + " " + theDate[:4] + " q" + str(i)] = [transcript, theDate[:10],
                         company.getStockPrice(str(dateOfTranscript + timedelta(days=-1))[:10]),
                         company.getStockPrice(str(dateOfTranscript + timedelta(days=+1))[:10]),
-                        company.getAverageStockPrice(str(dateOfTranscript)[:10], 1),   
+                        company.getAverageStockPrice(str(dateOfTranscript)[:10], 1),
                         company.getAverageStockPrice(str(dateOfTranscript)[:10], 3)]
-
                 except:
-                    #this adds a row to the data frame
-                    transcriptDF.loc[comp[1] + " " + theDate[:4] + " q" + str(i)] = [None, theDate[:4] + " q" + str(i), None, None, None, None]
-
+                    continue
             startYear += 1
 
     return transcriptDF
