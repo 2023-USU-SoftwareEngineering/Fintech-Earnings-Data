@@ -14,8 +14,10 @@ def add_history(date: datetime, company_name: str, before: float, after: float, 
     if connection:
         c = connection.cursor()
         c.execute(
-            f"INSERT INTO {company_name} (date, before, after, oneMonth, threeMonth, input) VALUES ({convert_date(date)}, {before}, {after}, {oneMonth}, {threeMonth}, '{transcript}')"
+            f"INSERT INTO {company_name} (date, before, after, oneMonth, threeMonth, input) VALUES ({convert_date(date)}, {before}, {after}, {oneMonth}, {threeMonth}, '{transcript}');"
         )
+        connection.commit()
+        connection.close()
 
 
 def convert_date(date: datetime):
