@@ -16,7 +16,7 @@ def get_companies_help():
     if connection:
         c = connection.cursor()
         c.execute(
-            "SELECT name FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%' AND name !='prediction';"
+            "SELECT name FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%' AND name !='prediction_short' AND name !='prediction_medium' AND name !='prediction_long';"
         )
         rows = c.fetchall()
         for row in rows:
@@ -58,7 +58,7 @@ def get_prediction_short(company_name: str):
     return_array = []
     connection = None
     try:
-        connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite/db/Fintech.db")
     except Error as e:
         print(e)
     if connection:
@@ -79,7 +79,7 @@ def get_prediction_medium(company_name: str):
     return_array = []
     connection = None
     try:
-        connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite/db/Fintech.db")
     except Error as e:
         print(e)
     if connection:
@@ -100,7 +100,7 @@ def get_prediction_long(company_name: str):
     return_array = []
     connection = None
     try:
-        connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite/db/Fintech.db")
     except Error as e:
         print(e)
     if connection:
@@ -128,7 +128,7 @@ def convert_date(date: datetime):
 def add_prediction_short(company_name: str, prediction: float):
     connection = None
     try:
-        connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite/db/Fintech.db")
     except Error as e:
         print(e)
     if connection:
@@ -136,13 +136,14 @@ def add_prediction_short(company_name: str, prediction: float):
         c.execute(
             f"INSERT INTO prediction_short (name, prediction) VALUES ('{company_name}',{prediction});"
         )
+        connection.commit()
         connection.close()
 
 
 def add_prediction_medium(company_name: str, prediction: float):
     connection = None
     try:
-        connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite/db/Fintech.db")
     except Error as e:
         print(e)
     if connection:
@@ -150,13 +151,14 @@ def add_prediction_medium(company_name: str, prediction: float):
         c.execute(
             f"INSERT INTO prediction_medium (name, prediction) VALUES ('{company_name}',{prediction});"
         )
+        connection.commit()
         connection.close()
 
 
 def add_prediction_long(company_name: str, prediction: float):
     connection = None
     try:
-        connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite/db/Fintech.db")
     except Error as e:
         print(e)
     if connection:
@@ -164,20 +166,24 @@ def add_prediction_long(company_name: str, prediction: float):
         c.execute(
             f"INSERT INTO prediction_long (name, prediction) VALUES ('{company_name}',{prediction});"
         )
+        connection.commit()
         connection.close()
 
 
 def add_history(date: datetime, company_name: str, before: float, after: float, oneMonth: float, threeMonth: float, transcript: str):
+    transcript = transcript.replace("'", "''")
     connection = None
     try:
-        connection = sqlite3.connect(os.getcwd() + "/../sqlite.db/Fintech.db")
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite/db/Fintech.db")
     except Error as e:
         print(e)
     if connection:
         c = connection.cursor()
         c.execute(
-            f"INSERT INTO {company_name} (date, before, after, oneMonth, threeMonth, input) VALUES ({convert_date(date)}, {before}, {after}, {oneMonth}, {threeMonth}, '{transcript}')"
+            f"INSERT INTO {company_name} (date, before, after, oneMonth, threeMonth, input) VALUES ({convert_date(date)}, {before}, {after}, {oneMonth}, {threeMonth}, '{transcript}');"
         )
+        connection.commit()
+        connection.close()
 
 
 def output_to_csv():
@@ -191,7 +197,7 @@ def output_to_csv():
         result = list()
         for name in get_companies_help():
             c.execute(
-                f"SELECT * FROM {name};"
+                f"SELECT * FROM {name[0]};"
             )
             rows = c.fetchall()
             for row in rows:
@@ -200,4 +206,5 @@ def output_to_csv():
             csvwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             for row in result:
                 csvwriter.writerow(row)
+
         connection.close()

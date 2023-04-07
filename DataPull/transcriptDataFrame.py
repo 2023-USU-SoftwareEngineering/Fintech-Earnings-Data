@@ -4,20 +4,20 @@ import math
 from datetime import date, timedelta, datetime
 import pandas as pd
 from IPython.display import display
-from DataPull.StockPricePull import StockData
-from fintech_django import sql_functions
+from StockPricePull import StockData
+from sql_functions import add_history
 
 
-# CURRENT YEAR START SET TOO 1970
+# CURRENT YEAR START SET TO 1970
 # companies in list start the earliest as found up in 1968
 
 
 # this is the list of companies that will be populated in the dataframe
-COMPANYS = [['AAPL', 'Apple'],
-              ['GOOGL', 'Google'],
-              ['MSFT', 'Microsoft'],
-              ['INTC', 'Intel'],
-              ['AMD', 'AMD']]
+COMPANIES = [['AAPL', 'Apple'],
+             ['GOOGL', 'Google'],
+             ['MSFT', 'Microsoft'],
+             ['INTC', 'Intel'],
+             ['AMD', 'AMD']]
 
 
 # this function calls the api to get the companies transcript
@@ -58,15 +58,15 @@ def getTransctipt(company, year, quarter):
 
 
 # this function populates a dataframe with companies transcripts starting at a specified year
-# companys is a list of strings and year is an int
-def populateDF(companys, year):
+# companies is a list of strings and year is an int
+def populateDF(companies, year):
 
     todays_date = date.today()
 
     columns = ["transcript", "date", "SP Day Before", "SP Day After", "SP Avg 1 Month After", "SP Avg 3 Months After"]
     transcriptDF = pd.DataFrame(columns=columns)
 
-    for comp in companys:
+    for comp in companies:
         # this company variable is for getting the stock price
         company = StockData(comp[0])
         startYear = year
@@ -84,19 +84,16 @@ def populateDF(companys, year):
                     transcriptDF.loc[comp[1] + " " + theDate[:4] + " q" + str(i)] = [transcript, theDate[:10],
                         company.getStockPrice(str(dateOfTranscript + timedelta(days=-1))[:10]),
                         company.getStockPrice(str(dateOfTranscript + timedelta(days=+1))[:10]),
-                        company.getAverageStockPrice(str(dateOfTranscript)[:10], 1),   
+                        company.getAverageStockPrice(str(dateOfTranscript)[:10], 1),
                         company.getAverageStockPrice(str(dateOfTranscript)[:10], 3)]
-
                 except:
-                    #this adds a row to the data frame
-                    transcriptDF.loc[comp[1] + " " + theDate[:4] + " q" + str(i)] = [None, theDate[:4] + " q" + str(i), None, None, None, None]
-
+                    continue
             startYear += 1
 
     return transcriptDF
 
 # call the function to populate the dataframe with companies starting at year
-fullDF = populateDF(COMPANYS, 1970)
+fullDF = populateDF(COMPANIES, 1970)
 
 #this displays the df
 #display(fullDF)
@@ -106,26 +103,45 @@ fullDF = populateDF(COMPANYS, 1970)
 def popServer(dframe):
 
     for index, row in dframe.iterrows():
-        if len(row["date"]) < 8:
+        if len(row["date"]) < 8 or type(row["transcript"]) != str:
             #do nothing
             continue
-        elif math.isnan(row["SP Day Before"]):
-            #dont add anything
-            continue
-        elif math.isnan(row["SP Day After"]):
-            dtime = datetime(int(row["date"][:4]), int(row["date"][5:7]), int(row["date"][8:10]))
-            sql_functions.add_history(dtime, index[:-8], row["SP Day Before"], 0, 0, 0, row["transcript"])
-        elif math.isnan(row["SP Avg 1 Month After"]):
-            dtime = datetime(int(row["date"][:4]), int(row["date"][5:7]), int(row["date"][8:10]))
-            sql_functions.add_history(dtime, index[:-8], row["SP Day Before"], row["SP Day After"], 0, 0, row["transcript"])
-        elif math.isnan(row["SP Avg 3 Months After"]):
-            dtime = datetime(int(row["date"][:4]), int(row["date"][5:7]), int(row["date"][8:10]))
-            sql_functions.add_history(dtime, index[:-8], row["SP Day Before"], row["SP Day After"],
-                row["SP Avg 1 Month After"], 0, row["transcript"])
         else:
             dtime = datetime(int(row["date"][:4]), int(row["date"][5:7]), int(row["date"][8:10]))
-            sql_functions.add_history(dtime, index[:-8], row["SP Day Before"], row["SP Day After"],
-                row["SP Avg 1 Month After"], row["SP Avg 3 Months After"], row["transcript"])
+            # in case something missing in dataframe
+            before = 0
+            after = 0
+            oneMonth = 0
+            threeMonth = 0
+
+            if not math.isnan(row["SP Day Before"]):
+                before = row["SP Day Before"]
+            if not math.isnan(row["SP Day After"]):
+                after = row["SP Day After"]
+            if not math.isnan(row["SP Avg 1 Month After"]):
+                oneMonth = row["SP Avg 1 Month After"]
+            if not math.isnan(row["SP Avg 3 Months After"]):
+                threeMonth = row["SP Avg 3 Months After"]
+            add_history(dtime, index[:-8], before, after, oneMonth, threeMonth, row["transcript"])
+
+        #
+        # elif math.isnan(row["SP Day Before"]):
+        #     #dont add anything
+        #     continue
+        # elif math.isnan(row["SP Day After"]):
+        #     dtime = datetime(int(row["date"][:4]), int(row["date"][5:7]), int(row["date"][8:10]))
+        #     sql_functions.add_history(dtime, index[:-8], row["SP Day Before"], 0, 0, 0, row["transcript"])
+        # elif math.isnan(row["SP Avg 1 Month After"]):
+        #     dtime = datetime(int(row["date"][:4]), int(row["date"][5:7]), int(row["date"][8:10]))
+        #     sql_functions.add_history(dtime, index[:-8], row["SP Day Before"], row["SP Day After"], 0, 0, row["transcript"])
+        # elif math.isnan(row["SP Avg 3 Months After"]):
+        #     dtime = datetime(int(row["date"][:4]), int(row["date"][5:7]), int(row["date"][8:10]))
+        #     sql_functions.add_history(dtime, index[:-8], row["SP Day Before"], row["SP Day After"],
+        #         row["SP Avg 1 Month After"], 0, row["transcript"])
+        # else:
+        #     dtime = datetime(int(row["date"][:4]), int(row["date"][5:7]), int(row["date"][8:10]))
+        #     sql_functions.add_history(dtime, index[:-8], row["SP Day Before"], row["SP Day After"],
+        #         row["SP Avg 1 Month After"], row["SP Avg 3 Months After"], row["transcript"])
 
 
 popServer(fullDF)
