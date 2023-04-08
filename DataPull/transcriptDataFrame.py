@@ -45,7 +45,7 @@ def getTransctipt(company, year, quarter):
                       'quarter': quarter,
                       'begin': (i * 20),
                       'end': ((i+1) * 20) - 1,
-        }
+                      }
 
         data = ((requests.get("https://api.aletheiaapi.com/EarningsCall", PARAMETERS)).json())['Remarks']
 
@@ -53,7 +53,6 @@ def getTransctipt(company, year, quarter):
             remark = data[j]['Remark']
             companyTranscript.append(remark)
 
-    # print(companyTranscript)
     return companyTranscript, transcriptDate
 
 
@@ -101,11 +100,11 @@ fullDF = populateDF(COMPANIES, 1970)
 
 # populate server
 def popServer(dframe):
-
     for index, row in dframe.iterrows():
-        if len(row["date"]) < 8 or type(row["transcript"]) != str:
-            #do nothing
+        # this says if the date is not in yyyy-mm-dd format then skip this row
+        if len(row["date"]) < 9 or len(row["transcript"]) < 1:
             continue
+
         else:
             dtime = datetime(int(row["date"][:4]), int(row["date"][5:7]), int(row["date"][8:10]))
             # in case something missing in dataframe
@@ -114,34 +113,17 @@ def popServer(dframe):
             oneMonth = 0
             threeMonth = 0
 
-            if not math.isnan(row["SP Day Before"]):
+            if row["SP Day Before"] is not None:
                 before = row["SP Day Before"]
-            if not math.isnan(row["SP Day After"]):
+            if row["SP Day After"] is not None:
                 after = row["SP Day After"]
-            if not math.isnan(row["SP Avg 1 Month After"]):
+            if row["SP Avg 1 Month After"] is not None:
                 oneMonth = row["SP Avg 1 Month After"]
-            if not math.isnan(row["SP Avg 3 Months After"]):
+            if row["SP Avg 3 Months After"] is not None:
                 threeMonth = row["SP Avg 3 Months After"]
-            add_history(dtime, index[:-8], before, after, oneMonth, threeMonth, row["transcript"])
 
-        #
-        # elif math.isnan(row["SP Day Before"]):
-        #     #dont add anything
-        #     continue
-        # elif math.isnan(row["SP Day After"]):
-        #     dtime = datetime(int(row["date"][:4]), int(row["date"][5:7]), int(row["date"][8:10]))
-        #     sql_functions.add_history(dtime, index[:-8], row["SP Day Before"], 0, 0, 0, row["transcript"])
-        # elif math.isnan(row["SP Avg 1 Month After"]):
-        #     dtime = datetime(int(row["date"][:4]), int(row["date"][5:7]), int(row["date"][8:10]))
-        #     sql_functions.add_history(dtime, index[:-8], row["SP Day Before"], row["SP Day After"], 0, 0, row["transcript"])
-        # elif math.isnan(row["SP Avg 3 Months After"]):
-        #     dtime = datetime(int(row["date"][:4]), int(row["date"][5:7]), int(row["date"][8:10]))
-        #     sql_functions.add_history(dtime, index[:-8], row["SP Day Before"], row["SP Day After"],
-        #         row["SP Avg 1 Month After"], 0, row["transcript"])
-        # else:
-        #     dtime = datetime(int(row["date"][:4]), int(row["date"][5:7]), int(row["date"][8:10]))
-        #     sql_functions.add_history(dtime, index[:-8], row["SP Day Before"], row["SP Day After"],
-        #         row["SP Avg 1 Month After"], row["SP Avg 3 Months After"], row["transcript"])
+            sql_functions.add_history(dtime, index[:-8], before, after, oneMonth, threeMonth, row["transcript"])
+
 
 
 popServer(fullDF)
