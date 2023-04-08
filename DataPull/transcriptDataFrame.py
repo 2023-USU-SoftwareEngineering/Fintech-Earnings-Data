@@ -5,7 +5,7 @@ from datetime import date, timedelta, datetime
 import pandas as pd
 from IPython.display import display
 from StockPricePull import StockData
-from sql_functions import add_history
+from fintech_django import sql_functions
 
 
 # CURRENT YEAR START SET TO 1970
