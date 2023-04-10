@@ -18,6 +18,7 @@ def main():
         print("-ss: select all from short prediction table")
         print("-sm: select all from medium prediction table")
         print("-sl: select all from long prediction table")
+        print("-ct: clean table of dummy data")
 
     connection = None
     try:
@@ -98,6 +99,17 @@ def main():
             rows = c.fetchall()
             for row in rows:
                 print(row)
+            connection.close()
+        elif sys.argv[1] == "-ct":
+            c.execute(
+                "SELECT name FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%' AND name != 'prediction_short' AND name != 'prediction_medium' AND name != 'prediction_long';"
+            )
+            rows = c.fetchall()
+            for row in rows:
+                c.execute(
+                    f"DELETE FROM {row[0]} WHERE input = 'transcript'"
+                )
+                connection.commit()
             connection.close()
 
 

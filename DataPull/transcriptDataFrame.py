@@ -122,7 +122,7 @@ def popServer(dframe):
             if row["SP Avg 3 Months After"] is not None:
                 threeMonth = row["SP Avg 3 Months After"]
 
-            sql_functions.add_history(dtime, index[:-8], before, after, oneMonth, threeMonth, row["transcript"])
+            sql_functions.add_history(dtime, index[:-8], before, after, oneMonth, threeMonth, ''.join(str(x) for x in row["transcript"]))
 
 
 
