@@ -5,7 +5,8 @@ import os
 import csv
 
 
-def add_history(date: datetime, company_name: str, before: float, after: float, oneMonth: float, threeMonth: float, transcript: str):
+def add_history(date: datetime, company_name: str, before: float, after: float, oneMonth: float, threeMonth: float,
+                transcript: str):
     transcript = transcript.replace("'", "''")
     connection = None
     try:
@@ -46,10 +47,13 @@ def output_to_csv():
             rows = c.fetchall()
             for row in rows:
                 result.append(row)
-        with open(os.getcwd() + "/../sqlite/db/Fintech.csv", 'w', newline='') as csvfile:
+        with open(os.getcwd() + "/../sqlite/db/Fintech.csv", 'w', newline='', encoding='utf-8') as csvfile:
             csvwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             for row in result:
-                csvwriter.writerow(row)
+                # try:
+                csvwriter.writerow((row[0], row[1], row[2], row[3], row[4], row[5].replace(',', '')))
+                # except:
+                #     pass
 
         connection.close()
 
