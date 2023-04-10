@@ -64,7 +64,7 @@ def get_prediction_short(company_name: str):
     if connection:
         c = connection.cursor()
         c.execute(
-            f"Select * FROM prediction_short WHERE <NAME> = '{company_name}';"
+            f"Select * FROM prediction_short WHERE name = '{company_name}';"
         )
         rows = c.fetchall()
         for row in rows:
@@ -85,7 +85,7 @@ def get_prediction_medium(company_name: str):
     if connection:
         c = connection.cursor()
         c.execute(
-            f"Select * FROM prediction_medium WHERE <NAME> = '{company_name}';"
+            f"Select * FROM prediction_medium WHERE name = '{company_name}';"
         )
         rows = c.fetchall()
         for row in rows:
@@ -106,7 +106,7 @@ def get_prediction_long(company_name: str):
     if connection:
         c = connection.cursor()
         c.execute(
-            f"Select * FROM prediction_long WHERE <NAME> = '{company_name}';"
+            f"Select * FROM prediction_long WHERE name = '{company_name}';"
         )
         rows = c.fetchall()
         for row in rows:
