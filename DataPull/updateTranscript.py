@@ -1,3 +1,5 @@
+# This file is used to update the database with the most current data.  It will update the most recent two years
+
 import datetime
 import requests
 import math
@@ -94,9 +96,6 @@ def populateDF(companys, year):
 
 # call the function to populate the dataframe with companies starting at year
 fullDF = populateDF(COMPANYS, current_year)
-
-#this displays the df
-#display(fullDF)
 
 
 # populate server
