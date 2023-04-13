@@ -10,6 +10,7 @@ import sql_functions
 
 # CURRENT YEAR START SET TO 1970
 # companies in list start the earliest as found up in 1968
+# this file is to be ran once at the beginning, as it populates the ENTIRE DF but takes a long time to run
 
 
 # this is the list of companies that will be populated in the dataframe
