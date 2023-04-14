@@ -101,31 +101,33 @@ fullDF = populateDF(COMPANIES, 1970)
 
 # populate server
 def popServer(dframe):
-    for index, row in dframe.iterrows():
-        # this says if the date is not in yyyy-mm-dd format then skip this row
-        if len(row["date"]) < 9 or len(row["transcript"]) < 1:
-            continue
+    try:
+        for index, row in dframe.iterrows():
+            # this says if the date is not in yyyy-mm-dd format then skip this row
+            if len(row["date"]) < 9 or len(row["transcript"]) < 1:
+                continue
 
-        else:
-            dtime = datetime(int(row["date"][:4]), int(row["date"][5:7]), int(row["date"][8:10]))
-            # in case something missing in dataframe
-            before = 0
-            after = 0
-            oneMonth = 0
-            threeMonth = 0
+            else:
+                dtime = datetime(int(row["date"][:4]), int(row["date"][5:7]), int(row["date"][8:10]))
+                # in case something missing in dataframe
+                before = 0
+                after = 0
+                oneMonth = 0
+                threeMonth = 0
 
-            if row["SP Day Before"] is not None:
-                before = row["SP Day Before"]
-            if row["SP Day After"] is not None:
-                after = row["SP Day After"]
-            if row["SP Avg 1 Month After"] is not None:
-                oneMonth = row["SP Avg 1 Month After"]
-            if row["SP Avg 3 Months After"] is not None:
-                threeMonth = row["SP Avg 3 Months After"]
+                if row["SP Day Before"] is not None:
+                    before = row["SP Day Before"]
+                if row["SP Day After"] is not None:
+                    after = row["SP Day After"]
+                if row["SP Avg 1 Month After"] is not None:
+                    oneMonth = row["SP Avg 1 Month After"]
+                if row["SP Avg 3 Months After"] is not None:
+                    threeMonth = row["SP Avg 3 Months After"]
 
-            sql_functions.add_history(dtime, index[:-8], before, after, oneMonth, threeMonth, ''.join(str(x) for x in row["transcript"]))
+                sql_functions.add_history(dtime, index[:-8], before, after, oneMonth, threeMonth, ''.join(str(x) for x in row["transcript"]))
 
-
+    except:
+        continue
 
 popServer(fullDF)
 
