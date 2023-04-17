@@ -100,9 +100,10 @@ fullDF = populateDF(COMPANYS, current_year)
 
 # populate server
 def popServer(dframe):
-    try:
-        for index, row in dframe.iterrows():
-            # this says if the date is not in yyyy-mm-dd format then skip this row
+
+    for index, row in dframe.iterrows():
+        try:
+        # this says if the date is not in yyyy-mm-dd format then skip this row
             if len(row["date"]) < 9 or len(row["transcript"]) < 1:
                 continue
 
@@ -123,8 +124,9 @@ def popServer(dframe):
                 if row["SP Avg 3 Months After"] is not None:
                     threeMonth = row["SP Avg 3 Months After"]
 
-                sql_functions.add_history(dtime, index[:-8], before, after, oneMonth, threeMonth, row["transcript"])
-    except:
-        continue
+                sql_functions.add_history(dtime, index[:-8], before, after, oneMonth, threeMonth, ''.join(str(x) for x in row["transcript"]))
+        except:
+            continue
+
 
 popServer(fullDF)
