@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <link rel="stylesheet" href="{% static 'earnings_data/style.css' %}">
+  </head>
+  <body>
+    <div id="content" class="content">
+        <div id="home">
+            <form id="my-form">
+                {% csrf_token %}
+                <label for="time_period">Select time period:</label>
+                <select id="time_period" name="time_period">
+                    <option value="short">Short</option>
+                    <option value="medium">Medium</option>
+                    <option value="long">Long</option>
+                </select>
+                <br>
+                <label for="company">Select company:</label>
+                <select id="company" name="company">
+                    {% for company in companies %}
+                    <option value="{{ company }}">{{ company }}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                <button class="submit-button" type="submit">Submit</button>
+            </form>
+            <div id="results" style="color: white; margin-left: 400px;"></div>
+            <style>
+                form {
+                    margin: 50px auto;
+                    max-width: 770px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    padding: 30px;
+                    border-radius: 10px;
+                }
+        
+                form label {
+                    color: #ffffff;
+                    font-size: 16px;
+                    margin-right: 20px;
+                    margin-bottom: 10px;
+                }
+        
+                form select {
+                    width: 150px;
+                    padding: 10px;
+                    margin-right: 20px;
+                    font-size: 16px;
+                    border-radius: 5px;
+                    background-color: #ffffff;
+                    color: #222222;
+                }
+        
+                .submit-button {
+                    background-color: transparent;
+                    border: 2px solid #ffffff;
+                    color: #ffffff;
+                    padding: 10px 20px;
+                    margin-top: 20px;
+                    display: block;
+                    margin: 0 auto;
+                }
+                
+                .submit-button:hover {
+                    background-color: #333;
+                }
+        
+            </style>
+            <script>
+                const form = document.getElementById('my-form');
+                const resultsDiv = document.getElementById('results');
+              
+                form.addEventListener('submit', (event) => {
+                  event.preventDefault(); // prevent form from submitting
+                  const formData = new FormData(form);
+                  const searchParams = new URLSearchParams(formData);
+                  const url = '/search/?' + searchParams.toString();
+              
+                  // send AJAX request to backend
+                  fetch(url, {
+                    method: 'GET',
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                    // display results in results div
+                    resultsDiv.innerHTML = data.results;
+                  })
+                  .catch(error => console.error(error));
+                });
+            </script>
+        </div>
+    </div>
+  </body>
+  <footer>
+    <div class="footer-container">
+      <div class="about-us">
+        <h3>About Us</h3>
+        <p>We are a company dedicated to providing quality products and services to our customers.</p>
+      </div>
+      <div class="contact-us">
+        <h3>Contact Us</h3>
+        <ul>
+          <li>123 Main St.</li>
+          <li>Anytown, USA 12345</li>
+          <li>Phone: 555-555-5555</li>
+          <li>Email: info@company.com</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</html>

@@ -5,37 +5,33 @@
     <link rel="stylesheet" href="{% static 'earnings_data/style.css' %}">
   </head>
   <body>
-    <div class="homepage">
-      <div class="content">
-        <div class="menu">
-          <div class="menu-item">
-            <div class="menu-text">
-              <a href="#" class="link">Price Trend</a>
-            </div>
-          </div>
-          <div class="menu-item">
-            <div class="menu-text">
-              <a href="" class="link">Price History</a>
-            </div>
-          </div>
-          <div class="menu-item menu-center">
-            <a href="#" class="link">Home</a>
-          </div>
-          <div class="menu-item">
-            <div class="menu-text">
-              <a href="" class="link">About Us</a>
-            </div>
-          </div>
-          <div class="menu-item">
-            <div class="menu-text">
-              <a href="" class="link">Contact</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="home">
-        <h1>This is the Home page</h1>
-      </div>
+    <div id="content" class="content">
+      {% block content %}
+      {% endblock %}
     </div>
   </body>
+  <footer>
+    <div class="footer-container">
+      <div class="about-us">
+        <h3>About Us</h3>
+        <p>We are a company dedicated to providing quality products and services to our customers.</p>
+      </div>
+      <div class="contact-us">
+        <h3>Contact Us</h3>
+        <ul>
+          <li>123 Main St.</li>
+          <li>Anytown, USA 12345</li>
+          <li>Phone: 555-555-5555</li>
+          <li>Email: info@company.com</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+  {% include "earnings_data/initAnimation.html" %}
+  <script>
+    const contentDiv = document.getElementById('initAnimation');
+    contentDiv.addEventListener('click', function() {
+        window.location.replace('/home/')
+    });
+</script>
 </html>
