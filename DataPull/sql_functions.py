@@ -46,12 +46,13 @@ def output_to_csv():
             )
             rows = c.fetchall()
             for row in rows:
-                result.append(row)
+                temp = (name[0], row[0], row[1], row[2], row[3], row[4], row[5].replace(',', ''))
+                result.append(temp)
         with open(os.getcwd() + "/../sqlite/db/Fintech.csv", 'w', newline='', encoding='utf-8') as csvfile:
             csvwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             for row in result:
                 # try:
-                csvwriter.writerow((row[0], row[1], row[2], row[3], row[4], row[5].replace(',', '')))
+                csvwriter.writerow(row)
                 # except:
                 #     pass
 
