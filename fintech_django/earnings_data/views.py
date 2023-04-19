@@ -41,5 +41,4 @@ def search(request):
         prediction = prediction["info"][0][1]
     except:
         print("Unable to get data from database")
-    print(prediction)
     return JsonResponse({'company': company, 'timePeriod': time_period, 'prediction': prediction, 'currentPrice': current_price})
