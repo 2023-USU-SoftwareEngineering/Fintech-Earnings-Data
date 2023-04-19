@@ -76,3 +76,49 @@ def get_companies_help():
             return_array.append(row)
         connection.close()
     return return_array
+
+
+def add_prediction_short(company_name: str, prediction: float):
+    connection = None
+    try:
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite/db/Fintech.db")
+    except Error as e:
+        print(e)
+    if connection:
+        c = connection.cursor()
+        c.execute(
+            f"INSERT INTO prediction_short (name, prediction) VALUES ('{company_name}',{prediction});"
+        )
+        connection.commit()
+        connection.close()
+
+
+def add_prediction_medium(company_name: str, prediction: float):
+    connection = None
+    try:
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite/db/Fintech.db")
+    except Error as e:
+        print(e)
+    if connection:
+        c = connection.cursor()
+        c.execute(
+            f"INSERT INTO prediction_medium (name, prediction) VALUES ('{company_name}',{prediction});"
+        )
+        connection.commit()
+        connection.close()
+
+
+def add_prediction_long(company_name: str, prediction: float):
+    connection = None
+    try:
+        connection = sqlite3.connect(os.getcwd() + "/../sqlite/db/Fintech.db")
+    except Error as e:
+        print(e)
+    if connection:
+        c = connection.cursor()
+        c.execute(
+            f"INSERT INTO prediction_long (name, prediction) VALUES ('{company_name}',{prediction});"
+        )
+        connection.commit()
+        connection.close()
+
