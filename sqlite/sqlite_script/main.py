@@ -18,7 +18,8 @@ def main():
         print("-ss: select all from short prediction table")
         print("-sm: select all from medium prediction table")
         print("-sl: select all from long prediction table")
-        print("-ct: clean table of dummy data")
+        print('-ct: get count of table')
+        print("-dd: clean table of dummy data")
 
     connection = None
     try:
@@ -49,6 +50,16 @@ def main():
                 rows = c.fetchall()
                 for row in rows:
                     print(row)
+            connection.close()
+        elif sys.argv[1] == "-ct":
+            total = 0
+            for arg in sys.argv[2:]:
+                c.execute(
+                    f"SELECT * FROM {arg};"
+                )
+                for _ in c.fetchall():
+                    total += 1
+            print(total)
             connection.close()
         elif sys.argv[1] == "-n":
             c.execute(
@@ -100,7 +111,7 @@ def main():
             for row in rows:
                 print(row)
             connection.close()
-        elif sys.argv[1] == "-ct":
+        elif sys.argv[1] == "-dd":
             c.execute(
                 "SELECT name FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%' AND name != 'prediction_short' AND name != 'prediction_medium' AND name != 'prediction_long';"
             )
