@@ -87,7 +87,22 @@
                   .then(response => response.json())
                   .then(data => {
                     // display results in results div
-                    resultsDiv.innerHTML = data.results;
+                    let company = data.company;
+                    let currentPrice = data.currentPrice;
+                    let prediction = data.prediction;
+                    let timePeriod = data.timePeriod;
+                    currentPrice = new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    }).format(currentPrice);
+
+                    prediction = new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    }).format(prediction);
+
+                    let htmlString = `<p>Current price of ${company} is: ${currentPrice}</p><p>We predict that in the ${timePeriod} term, the price will be ${prediction}</p>`;
+                    resultsDiv.innerHTML = htmlString;
                   })
                   .catch(error => console.error(error));
                 });
