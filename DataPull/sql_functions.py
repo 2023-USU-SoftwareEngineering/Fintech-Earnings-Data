@@ -16,7 +16,7 @@ def add_history(date: datetime, company_name: str, before: float, after: float, 
     if connection:
         c = connection.cursor()
         c.execute(
-            f"INSERT INTO {company_name} (date, before, after, oneMonth, threeMonth, input) VALUES ({convert_date(date)}, {before}, {after}, {oneMonth}, {threeMonth}, '{transcript}');"
+            f"REPLACE INTO {company_name} (date, before, after, oneMonth, threeMonth, input) VALUES ({convert_date(date)}, {before}, {after}, {oneMonth}, {threeMonth}, '{transcript}');"
         )
         connection.commit()
         connection.close()
@@ -84,7 +84,7 @@ def add_prediction_short(company_name: str, prediction: float):
     if connection:
         c = connection.cursor()
         c.execute(
-            f"INSERT INTO prediction_short (name, prediction) VALUES ('{company_name}',{prediction});"
+            f"REPLACE INTO prediction_short (name, prediction) VALUES ('{company_name}',{prediction});"
         )
         connection.commit()
         connection.close()
@@ -99,7 +99,7 @@ def add_prediction_medium(company_name: str, prediction: float):
     if connection:
         c = connection.cursor()
         c.execute(
-            f"INSERT INTO prediction_medium (name, prediction) VALUES ('{company_name}',{prediction});"
+            f"REPLACE INTO prediction_medium (name, prediction) VALUES ('{company_name}',{prediction});"
         )
         connection.commit()
         connection.close()
@@ -114,7 +114,7 @@ def add_prediction_long(company_name: str, prediction: float):
     if connection:
         c = connection.cursor()
         c.execute(
-            f"INSERT INTO prediction_long (name, prediction) VALUES ('{company_name}',{prediction});"
+            f"REPLACE INTO prediction_long (name, prediction) VALUES ('{company_name}',{prediction});"
         )
         connection.commit()
         connection.close()
