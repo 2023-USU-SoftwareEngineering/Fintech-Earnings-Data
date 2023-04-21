@@ -28,12 +28,12 @@ def search(request):
     time_period = request.GET.get('time_period')
     company = request.GET.get("company")
     current_price = get_current(company)
-    if time_period == "short":
+    if time_period == "short" or time_period == "s":
         prediction = get_prediction_short(company)
-        
-    if time_period == "medium":
+    elif time_period == "medium" or time_period == "m":
         prediction = get_prediction_medium(company)
     else:
+        # TODO: Having a "catch-all" else statement gives me the heebie-jeebies. We should return an error response if time_period isn't short, medium or long, and handle that on our webpage.
         prediction = get_prediction_long(company)
     
     prediction = json.loads(prediction)
