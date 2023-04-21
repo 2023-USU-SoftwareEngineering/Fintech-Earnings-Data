@@ -126,6 +126,7 @@
                     }).format(prediction);
 
                     let htmlString = `<p>Current price of ${company} is: ${currentPrice}</p><p>We predict that in the ${timePeriod} term, the price will be ${prediction}</p>`;
+                    if (company == "Google") htmlString += "<p>DISCLAIMER:</p> <p>Google has undergone two stock splits, once in March 2014 and once again in July 2022. Prices are likely unrealistic.</p>"
                     resultsDiv.innerHTML = htmlString;
                   })
                   .catch(error => console.error(error));
