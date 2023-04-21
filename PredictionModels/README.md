@@ -4,5 +4,5 @@ advantage to using this type of file while doing machine learning it lets you ea
 of code and not others. Often when doing machine learning functions and tests, can run for hours, so
 being able to run specific things without running others becomes invaluable. 
 
-Right now, just running all the cells won't take terribly long to run, the eventual goal is to add 
-the predictions to the database. We still need to work to get to that point. 
+
+Basic prediction models have been made, and the code to add those predictions to the data base is in place I don't know if it has worked. 
