@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css?family=Ubuntu);
 body {
     background: #080808;
     background-size: cover;
@@ -24,6 +25,7 @@ footer {
   .about-us, .contact-us {
     width: 50%;
     color: #fff;
+    font: Ubuntu;
   }
   
   .about-us {
@@ -65,7 +67,6 @@ footer {
     text-decoration: underline;
   }
   
-  @import url(https://fonts.googleapis.com/css?family=Ubuntu);
 *, html, body {
   margin: 0;
   padding: 0;
