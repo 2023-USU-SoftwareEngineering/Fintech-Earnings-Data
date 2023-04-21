@@ -99,3 +99,15 @@ svg text {
   75% {stroke-width: 3px;}
   100% {stroke-width: 0;}
 }
+
+.logo {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+  color: #ffffff;
+  padding: 20px;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  text-shadow: 2px 2px #808080;
+  border-radius: 10px;
+}
