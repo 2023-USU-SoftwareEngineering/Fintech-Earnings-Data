@@ -71,19 +71,19 @@ def main():
             connection.close()
         elif sys.argv[1] == "-cs":
             c.execute(
-                "CREATE TABLE IF NOT EXISTS prediction_short ([name] TEXT, [prediction] REAL);"
+                "CREATE TABLE IF NOT EXISTS prediction_short ([name] TEXT PRIMARY KEY, [prediction] REAL);"
             )
             connection.commit()
             connection.close()
         elif sys.argv[1] == "-cm":
             c.execute(
-                "CREATE TABLE IF NOT EXISTS prediction_medium ([name] TEXT, [prediction] REAL);"
+                "CREATE TABLE IF NOT EXISTS prediction_medium ([name] TEXT PRIMARY KEY, [prediction] REAL);"
             )
             connection.commit()
             connection.close()
         elif sys.argv[1] == "-cl":
             c.execute(
-                "CREATE TABLE IF NOT EXISTS prediction_long ([name] TEXT, [prediction] REAL);"
+                "CREATE TABLE IF NOT EXISTS prediction_long ([name] TEXT PRIMARY KEY, [prediction] REAL);"
             )
             connection.commit()
             connection.close()

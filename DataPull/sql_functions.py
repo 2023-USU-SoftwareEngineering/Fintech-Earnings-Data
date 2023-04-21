@@ -51,10 +51,7 @@ def output_to_csv():
         with open(os.getcwd() + "/../sqlite/db/Fintech.csv", 'w', newline='', encoding='utf-8') as csvfile:
             csvwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             for row in result:
-                # try:
                 csvwriter.writerow(row)
-                # except:
-                #     pass
 
         connection.close()
 
