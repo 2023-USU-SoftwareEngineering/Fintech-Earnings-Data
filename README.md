@@ -8,9 +8,6 @@ After cloning this repo, ensure you have the packages `django` and `django-cors-
 ## fintech_django
 This folder contains the django server. The folder's [readme](fintech_django/README.md) contains information on how to run the server.
 
-## fintechrouted
-This folder contains code that was used to assemble the vue webapp, which was later ported into django. It currently is not part of the end-product.
-
 ## PredictionModels
 This folder contains our prediction models, stored in [FintechPredictionModels.ipynb](PredictionModels/FintechPredictionModels.ipynb).
 
